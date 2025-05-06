@@ -1,48 +1,42 @@
-import React, { useState } from "react";
-import Step from "./Step";
+import React, { useState } from 'react';
+import Step from './Step';
 
-export default function App() {
-  const [currentStep, setCurrentStep] = useState(1);
-  const [formData, setFormData] = useState({
-    first_name: "",
-    last_name: "",
-    model: "",
-    car_price: "",
-    card_info: "",
-    expiry_date: ""
-  });
+const App = () => {
+    const [currentStep, setCurrentStep] = useState(1);
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+        model: '',
+        carPrice: '',
+        cardInfo: '',
+        expiryDate: ''
+    });
 
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [id]: value
-    }));
-  };
+    const nextStep = () => setCurrentStep(currentStep + 1);
+    const prevStep = () => setCurrentStep(currentStep - 1);
+    const handleChange = (e) => {
+        const { id, value } = e.target;
+        setFormData({ ...formData, [id]: value });
+    };
 
-  const nextStep = () => {
-    setCurrentStep((prev) => prev + 1);
-  };
+    const handleSubmit = () => {
+        console.log('Form submitted:', formData);
+        // Handle form submission logic (e.g., API call)
+    };
 
-  const prevStep = () => {
-    setCurrentStep((prev) => prev - 1);
-  };
+    return (
+        <div>
+            <h1>Multi-Step Form</h1>
+            <Step
+                currentStep={currentStep}
+                formData={formData}
+                handleChange={handleChange}
+                nextStep={nextStep}
+                prevStep={prevStep}
+                handleSubmit={handleSubmit}
+            />
+        </div>
+    );
+};
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Submitted Data:", formData);
-  };
-
-  return (
-    <div className="form-container">
-      <Step
-        step={currentStep}
-        formData={formData}
-        handleChange={handleChange}
-        nextStep={nextStep}
-        prevStep={prevStep}
-        handleSubmit={handleSubmit}
-      />
-    </div>
-  );
-}
+export default App;
